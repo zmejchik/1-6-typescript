@@ -57,7 +57,7 @@ class Organizm {
   constructor(
     name: string,
     secondParameter: number | boolean,
-    type?:string,
+    type?: string,
     cuteness?: number,
     coolness?: number
   ) {
@@ -69,7 +69,7 @@ class Organizm {
     }
     this.cuteness = cuteness;
     this.coolness = coolness;
-    if (type !== undefined){
+    if (type !== undefined) {
       this.type = type;
     }
   }
@@ -96,12 +96,20 @@ console.log(hey(b));
 
 // 4.3
 
-function hey(a:Organizm):string {
-  return "hey! i'm " + a.name()
-   + (a.type === "cat" ? (" cuteness: "+(a as Cat).cuteness) : (" coolness: "+(a as Dog).coolness));
+function hey(a: Organizm): string {
+  return (
+    "hey! i'm " +
+    a.name() +
+    (a.type !== undefined &&
+    (a.cuteness !== undefined || a.coolness !== undefined)
+      ? a.type === "cat"
+        ? " cuteness: " + (a as Cat).cuteness
+        : " coolness: " + (a as Dog).coolness
+      : "")
+  );
 }
-console.log(hey({name: () => "snizhok", type: "cat", cuteness: 100}))
-console.log(hey({name: () => "sirko", type: "dog", coolness: 100})) 
+console.log(hey({ name: () => "snizhok", type: "cat", cuteness: 100 }));
+console.log(hey({ name: () => "sirko", type: "dog", coolness: 100 }));
 
 /* // 5.
 

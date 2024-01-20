@@ -65,8 +65,14 @@ console.log(hey(a));
 console.log(hey(b));
 // 4.3
 function hey(a) {
-    return "hey! i'm " + a.name()
-        + (a.type === "cat" ? ("cuteness: " + a.cuteness) : ("coolness: " + a.coolness));
+    return ("hey! i'm " +
+        a.name() +
+        (a.type !== undefined &&
+            (a.cuteness !== undefined || a.coolness !== undefined)
+            ? a.type === "cat"
+                ? " cuteness: " + a.cuteness
+                : " coolness: " + a.coolness
+            : ""));
 }
 console.log(hey({ name: () => "snizhok", type: "cat", cuteness: 100 }));
 console.log(hey({ name: () => "sirko", type: "dog", coolness: 100 }));
