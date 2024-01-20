@@ -1,0 +1,17 @@
+{
+  "name": "1-6-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rd /s /q dist && tsc.cmd",
+    "start": "node dist/index.js",
+    "startProekt": "npm run build && npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/ia-writer-mono": "^5.0.7"
+  }
+}
