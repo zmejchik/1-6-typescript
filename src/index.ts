@@ -30,7 +30,7 @@ interface Product {
   name: string;
 }
 // <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining>
-function getAllProductNames(a?: Products) {
+function getAllProductNames(a?: Products):string[] {
   return a?.products?.map((prod) => prod?.name) || [];
 }
 console.log(
@@ -111,17 +111,17 @@ function hey(a: Organizm): string {
 console.log(hey({ name: () => "snizhok", type: "cat", cuteness: 100 }));
 console.log(hey({ name: () => "sirko", type: "dog", coolness: 100 }));
 
-/* // 5.
+// 5.
 
 // google for Record type
-function stringEntries(a) {
-  return Array.isArray(a) ? a : Object.keys(a);
+function stringEntries<T>(a: Object | Array<T>): Array<T> {
+  return Array.isArray(a) ? a : Object.keys(a) as Array<T>;
 }
 
 // 6.
 // ....can be hard, don't worry and SKIP if you do not know how to do it
 
-async function world(a) {
+async function world(a: number):Promise<string> {
   return "*".repeat(a);
 }
 const hello = async () => {
@@ -129,5 +129,4 @@ const hello = async () => {
 };
 hello()
   .then((r) => console.log(r))
-  .catch((e) => console.log("fail"));
- */
+  .catch((e: Error) => console.log("fail"));

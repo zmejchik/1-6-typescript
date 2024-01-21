@@ -1,5 +1,14 @@
 "use strict";
 // 1.
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 function getFirstWord(a) {
     return a.split(/ +/)[0].length;
 }
@@ -76,23 +85,21 @@ function hey(a) {
 }
 console.log(hey({ name: () => "snizhok", type: "cat", cuteness: 100 }));
 console.log(hey({ name: () => "sirko", type: "dog", coolness: 100 }));
-/* // 5.
-
+// 5.
 // google for Record type
 function stringEntries(a) {
-  return Array.isArray(a) ? a : Object.keys(a);
+    return Array.isArray(a) ? a : Object.keys(a);
 }
-
 // 6.
 // ....can be hard, don't worry and SKIP if you do not know how to do it
-
-async function world(a) {
-  return "*".repeat(a);
+function world(a) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return "*".repeat(a);
+    });
 }
-const hello = async () => {
-  return await world(10);
-};
+const hello = () => __awaiter(void 0, void 0, void 0, function* () {
+    return yield world(10);
+});
 hello()
-  .then((r) => console.log(r))
-  .catch((e) => console.log("fail"));
- */
+    .then((r) => console.log(r))
+    .catch((e) => console.log("fail"));
