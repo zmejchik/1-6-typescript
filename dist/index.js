@@ -103,3 +103,46 @@ const hello = () => __awaiter(void 0, void 0, void 0, function* () {
 hello()
     .then((r) => console.log(r))
     .catch((e) => console.log("fail"));
+function sum(a) {
+    let result = 0;
+    for (let key in a) {
+        if (key === "cvalue") {
+            if (typeof a[key] === "number") {
+                result += a[key];
+            }
+            else if (typeof a[key] === "string") {
+                const temp = Number(a[key]);
+                if (!isNaN(temp)) {
+                    result += temp;
+                }
+            }
+            else if (typeof a[key] === "object" && a[key] !== null) {
+                result += sum(a[key]);
+            }
+            else if (a[key] === undefined) {
+                return 2021;
+            }
+        }
+        else {
+            result += sum(a[key]);
+        }
+    }
+    return result;
+}
+let pryklad = {
+    hello: { cvalue: undefined },
+    world: { cvalue: { yay: { cvalue: "2" } } },
+    cvalue: undefined
+};
+let pryklad2 = {
+    hello: { cvalue: 1 },
+    world: { cvalue: { yay: { cvalue: "2" } } },
+};
+let pryklad3 = {
+    hello: { cvalue: undefined },
+    world: { cvalue: { yay: { cvalue: "4000" } } },
+    cvalue: undefined
+};
+console.log(sum(pryklad));
+console.log(sum(pryklad2));
+console.log(sum(pryklad3));

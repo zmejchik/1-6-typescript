@@ -30,7 +30,7 @@ interface Product {
   name: string;
 }
 // <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining>
-function getAllProductNames(a?: Products):string[] {
+function getAllProductNames(a?: Products): string[] {
   return a?.products?.map((prod) => prod?.name) || [];
 }
 console.log(
@@ -115,13 +115,13 @@ console.log(hey({ name: () => "sirko", type: "dog", coolness: 100 }));
 
 // google for Record type
 function stringEntries<T>(a: Object | Array<T>): Array<T> {
-  return Array.isArray(a) ? a : Object.keys(a) as Array<T>;
+  return Array.isArray(a) ? a : (Object.keys(a) as Array<T>);
 }
 
 // 6.
 // ....can be hard, don't worry and SKIP if you do not know how to do it
 
-async function world(a: number):Promise<string> {
+async function world(a: number): Promise<string> {
   return "*".repeat(a);
 }
 const hello = async () => {
@@ -130,3 +130,52 @@ const hello = async () => {
 hello()
   .then((r) => console.log(r))
   .catch((e: Error) => console.log("fail"));
+
+//TASK 3
+//********************************************************************************************************** */
+interface Types {
+  cvalue: string | number | Types;
+}
+
+function sum(a: Types): number {
+  let result = 0;
+  for (let key in a) {
+    if (key === "cvalue") {
+      if (typeof a[key] === "number") {
+        result += a[key] as number;
+      } else if (typeof a[key] === "string") {
+        const temp = Number(a[key]);
+        if (!isNaN(temp)) {
+          result += temp;
+        }
+      } else if (typeof a[key] === "object" && a[key] !== null) {
+        result += sum(a[key] as Types);
+      } else if (a[key] === undefined) {
+        return 2021;
+      }
+    } else {
+      result += sum(a[key] as Types);
+    }
+  }
+  return result;
+}
+
+let pryklad = {
+  hello: { cvalue: undefined },
+  world: { cvalue: { yay: { cvalue: "2" } } },
+  cvalue: undefined
+};
+
+let pryklad2 = {
+  hello: { cvalue: 1 },
+  world: { cvalue: { yay: { cvalue: "2" } } },
+};
+
+let pryklad3 = {
+  hello: { cvalue: undefined },
+  world: { cvalue: { yay: { cvalue: "4000" } } },
+  cvalue: undefined
+};
+console.log(sum(pryklad));
+console.log(sum(pryklad2));
+console.log(sum(pryklad3));
