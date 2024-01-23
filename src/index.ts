@@ -134,48 +134,54 @@ hello()
 //TASK 3
 //********************************************************************************************************** */
 interface Types {
-  cvalue: string | number | Types;
+  [field: string]: ObjectWithCValue | undefined | string;
 }
-
+interface ObjectWithCValue {
+  cvalue?: number | string | undefined | Types;
+}
 function sum(a: Types): number {
-  let result = 0;
-  for (let key in a) {
-    if (key === "cvalue") {
-      if (typeof a[key] === "number") {
-        result += a[key] as number;
-      } else if (typeof a[key] === "string") {
-        const temp = Number(a[key]);
-        if (!isNaN(temp)) {
-          result += temp;
-        }
-      } else if (typeof a[key] === "object" && a[key] !== null) {
-        result += sum(a[key] as Types);
-      } else if (a[key] === undefined) {
+  let result:number = 0;
+  for (const field in a) {
+    const fieldValue = a[field];
+    if (fieldValue === undefined) {      
+      return 2021;
+    } else if (typeof fieldValue === "number") {
+      result = result + fieldValue;
+    } else if (typeof fieldValue === "string") {
+      const numberValue = Number(fieldValue);
+      if (!isNaN(numberValue)) {
+        result = result + numberValue;
+      } else {
         return 2021;
       }
     } else {
-      result += sum(a[key] as Types);
+      const recursiveResult = sum(fieldValue as Types);
+      if (recursiveResult === 2021) {
+        return 2021;
+      }
+      else{
+        result += recursiveResult;
+      }
     }
   }
   return result;
 }
 
 let pryklad = {
-  hello: { cvalue: undefined },
-  world: { cvalue: { yay: { cvalue: "2" } } },
-  cvalue: undefined
-};
-
-let pryklad2 = {
   hello: { cvalue: 1 },
   world: { cvalue: { yay: { cvalue: "2" } } },
 };
 
+let pryklad2 = {
+  hello: { cvalue: 1 },
+  world: { cvalue: { yay: { cvalue: "2" } }},
+};
+
 let pryklad3 = {
   hello: { cvalue: undefined },
-  world: { cvalue: { yay: { cvalue: "4000" } } },
-  cvalue: undefined
+  world: { cvalue: { yay: { cvalue: "4000" } }},
 };
-console.log(sum(pryklad));
-console.log(sum(pryklad2));
-console.log(sum(pryklad3));
+
+console.log(sum(pryklad)); // Результат: 2
+console.log(sum(pryklad2)); // Результат: 3
+console.log(sum(pryklad3)); // Результат: 2021
