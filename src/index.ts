@@ -140,46 +140,49 @@ interface ObjectWithCValue {
   cvalue?: number | string | undefined | Types;
 }
 function sum(a: Types): number {
-  let result:number = 0;
+  let result: number = 0;
   for (const field in a) {
     const fieldValue = a[field];
-    if (fieldValue === undefined) {      
-      return 2021;
-    } else if (typeof fieldValue === "number") {
-      result = result + fieldValue;
-    } else if (typeof fieldValue === "string") {
-      const numberValue = Number(fieldValue);
-      if (!isNaN(numberValue)) {
-        result = result + numberValue;
-      } else {
+    switch (typeof fieldValue) {
+      case "undefined":
         return 2021;
-      }
-    } else {
-      const recursiveResult = sum(fieldValue as Types);
-      if (recursiveResult === 2021) {
-        return 2021;
-      }
-      else{
-        result += recursiveResult;
-      }
+      case "number":
+        result += fieldValue;
+        break;
+      case "string":
+        const numberValue = Number(fieldValue);
+        if (!isNaN(numberValue)) {
+          result += numberValue;
+        } else {
+          return 2021;
+        }
+        break;
+      default:
+        const recursiveResult = sum(fieldValue as Types);
+        if (recursiveResult === 2021) {
+          return 2021;
+        } else {
+          result += recursiveResult;
+        }
+        break;
     }
   }
   return result;
 }
 
 let pryklad = {
-  hello: { cvalue: 1 },
+  hello: { cvalue: "k" },
   world: { cvalue: { yay: { cvalue: "2" } } },
 };
 
 let pryklad2 = {
   hello: { cvalue: 1 },
-  world: { cvalue: { yay: { cvalue: "2" } }},
+  world: { cvalue: { yay: { cvalue: "2" } } },
 };
 
 let pryklad3 = {
   hello: { cvalue: undefined },
-  world: { cvalue: { yay: { cvalue: "4000" } }},
+  world: { cvalue: { yay: { cvalue: "4000" } } },
 };
 
 console.log(sum(pryklad)); // Результат: 2
