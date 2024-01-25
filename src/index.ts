@@ -168,47 +168,53 @@ function sum(a: Types): number {
   return result;
 }
 
-let pryklad = {
+let pryklad:Types = {
   hello: { cvalue: "k" },
   world: { cvalue: { yay: { cvalue: "2" } } },
 };
 
-let pryklad2 = {
+let pryklad2: Types= {
   hello: { cvalue: 1 },
   world: { cvalue: { yay: { cvalue: "2" } } },
 };
 
-let pryklad3 = {
+let pryklad3: Types = {
   hello: { cvalue: undefined },
   world: { cvalue: { yay: { cvalue: "4000" } } },
 };
 
-let pryklad4 = {
+let pryklad4: Types = {
   field: undefined,
 };
 
+console.time('My Function');
 console.log(sum(pryklad)); // Результат: 2023
 console.log(sum(pryklad2)); // Результат: 3
 console.log(sum(pryklad3)); // Результат: 6021
 console.log(sum(pryklad4)); // Результат 2021
+console.timeEnd('My Function');
 
 //забагована функція
-function summ(a:Types):number {
+function summ(a: Types): number {
   const x = Object.keys(a).map((k) => {
-      const elem = a[k];
-      if (elem === undefined) return 2021
-      else if (typeof elem === 'string') return Number(elem) || 2021;
-      else if (elem !== undefined) return summ(elem as Types);
-      return elem;
+    const elem = a[k];
+    if (elem === undefined) return 2021;
+    else if (typeof elem.cvalue === 'string') return Number(elem.cvalue) || 2021;
+    else if (typeof elem.cvalue === 'number') return elem.cvalue;
+    else if (elem.cvalue !== undefined) return summ(elem.cvalue as Types);
+    return 2021;
   });
   let sum = 0;
   for (let i = 0; i < x.length; i++) {
-      sum += x[i] as number;
+    sum += x[i] as number;
   }
+
   return sum;
 }
 console.log('***************************************************')
-console.log(sum(pryklad)); // Результат: 2023
-console.log(sum(pryklad2)); // Результат: 3
-console.log(sum(pryklad3)); // Результат: 6021
-console.log(sum(pryklad4)); // Результат 2021
+console.time('Bug Function');
+console.log(summ(pryklad)); // Результат: 2023
+console.log(summ(pryklad2)); // Результат: 3
+console.log(summ(pryklad3)); // Результат: 6021
+console.log(summ(pryklad4)); // Результат 2021
+console.timeEnd('Bug Function');

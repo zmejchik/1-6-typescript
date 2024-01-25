@@ -147,21 +147,25 @@ let pryklad3 = {
 let pryklad4 = {
     field: undefined,
 };
+console.time('My Function');
 console.log(sum(pryklad)); // Результат: 2023
 console.log(sum(pryklad2)); // Результат: 3
 console.log(sum(pryklad3)); // Результат: 6021
 console.log(sum(pryklad4)); // Результат 2021
+console.timeEnd('My Function');
 //забагована функція
 function summ(a) {
     const x = Object.keys(a).map((k) => {
         const elem = a[k];
         if (elem === undefined)
             return 2021;
-        else if (typeof elem === 'string')
-            return Number(elem) || 2021;
-        else if (elem !== undefined)
-            return summ(elem);
-        return elem;
+        else if (typeof elem.cvalue === 'string')
+            return Number(elem.cvalue) || 2021;
+        else if (typeof elem.cvalue === 'number')
+            return elem.cvalue;
+        else if (elem.cvalue !== undefined)
+            return summ(elem.cvalue);
+        return 2021;
     });
     let sum = 0;
     for (let i = 0; i < x.length; i++) {
@@ -170,7 +174,9 @@ function summ(a) {
     return sum;
 }
 console.log('***************************************************');
-console.log(sum(pryklad)); // Результат: 2023
-console.log(sum(pryklad2)); // Результат: 3
-console.log(sum(pryklad3)); // Результат: 6021
-console.log(sum(pryklad4)); // Результат 2021
+console.time('Bug Function');
+console.log(summ(pryklad)); // Результат: 2023
+console.log(summ(pryklad2)); // Результат: 3
+console.log(summ(pryklad3)); // Результат: 6021
+console.log(summ(pryklad4)); // Результат 2021
+console.timeEnd('Bug Function');
