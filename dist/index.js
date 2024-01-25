@@ -103,13 +103,15 @@ const hello = () => __awaiter(void 0, void 0, void 0, function* () {
 hello()
     .then((r) => console.log(r))
     .catch((e) => console.log("fail"));
+//власна функція
 function sum(a) {
     let result = 0;
     for (const field in a) {
         const fieldValue = a[field];
         switch (typeof fieldValue) {
             case "undefined":
-                return 2021;
+                result = result + 2021;
+                break;
             case "number":
                 result += fieldValue;
                 break;
@@ -119,17 +121,12 @@ function sum(a) {
                     result += numberValue;
                 }
                 else {
-                    return 2021;
+                    result = result + 2021;
                 }
                 break;
             default:
                 const recursiveResult = sum(fieldValue);
-                if (recursiveResult === 2021) {
-                    return 2021;
-                }
-                else {
-                    result += recursiveResult;
-                }
+                result += recursiveResult;
                 break;
         }
     }
@@ -147,6 +144,33 @@ let pryklad3 = {
     hello: { cvalue: undefined },
     world: { cvalue: { yay: { cvalue: "4000" } } },
 };
-console.log(sum(pryklad)); // Результат: 2
+let pryklad4 = {
+    field: undefined,
+};
+console.log(sum(pryklad)); // Результат: 2023
 console.log(sum(pryklad2)); // Результат: 3
-console.log(sum(pryklad3)); // Результат: 2021
+console.log(sum(pryklad3)); // Результат: 6021
+console.log(sum(pryklad4)); // Результат 2021
+//забагована функція
+function summ(a) {
+    const x = Object.keys(a).map((k) => {
+        const elem = a[k];
+        if (elem === undefined)
+            return 2021;
+        else if (typeof elem === 'string')
+            return Number(elem) || 2021;
+        else if (elem !== undefined)
+            return summ(elem);
+        return elem;
+    });
+    let sum = 0;
+    for (let i = 0; i < x.length; i++) {
+        sum += x[i];
+    }
+    return sum;
+}
+console.log('***************************************************');
+console.log(sum(pryklad)); // Результат: 2023
+console.log(sum(pryklad2)); // Результат: 3
+console.log(sum(pryklad3)); // Результат: 6021
+console.log(sum(pryklad4)); // Результат 2021
