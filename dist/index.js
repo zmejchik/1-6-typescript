@@ -102,7 +102,7 @@ const hello = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 hello()
     .then((r) => console.log(r))
-    .catch((e) => console.log("fail"));
+    .catch(() => console.log("fail"));
 //власна функція
 function sum(a) {
     let result = 0;

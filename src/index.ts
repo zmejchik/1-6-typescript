@@ -31,7 +31,7 @@ interface Product {
 }
 // <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining>
 function getAllProductNames(a?: Products): string[] {
-  return a?.products?.map((prod) => prod?.name) || [];
+  return a?.products?.map((prod:Product) => prod?.name) || [];
 }
 console.log(
   getAllProductNames({ products: [{ name: "Тарас" }, { name: "Макар" }] })
@@ -89,8 +89,8 @@ class Dog extends Organizm {
   type = Animal.DOG;
 }
 
-let a = new Cat("snizhok", true);
-let b = new Dog("sirko", 333);
+let a:Cat = new Cat("snizhok", true);
+let b:Dog = new Dog("sirko", 333);
 console.log(hey(a));
 console.log(hey(b));
 
@@ -128,8 +128,8 @@ const hello = async () => {
   return await world(10);
 };
 hello()
-  .then((r) => console.log(r))
-  .catch((e: Error) => console.log("fail"));
+  .then((r:string) => console.log(r))
+  .catch(() => console.log("fail"));
 
 //TASK 3
 //********************************************************************************************************** */
@@ -143,7 +143,7 @@ interface ObjectWithCValue {
 function sum(a: Types): number {
   let result: number = 0;
   for (const field in a) {
-    const fieldValue = a[field];
+    const fieldValue:ObjectWithCValue|undefined = a[field];
     switch (typeof fieldValue) {
       case "undefined":
         result = result + 2021;
@@ -152,7 +152,7 @@ function sum(a: Types): number {
         result += fieldValue;
         break;
       case "string":
-        const numberValue = Number(fieldValue);
+        const numberValue:number = Number(fieldValue);
         if (!isNaN(numberValue)) {
           result += numberValue;
         } else {
@@ -160,7 +160,7 @@ function sum(a: Types): number {
         }
         break;
       default:
-        const recursiveResult = sum(fieldValue as Types);
+        const recursiveResult:number = sum(fieldValue as Types);
           result += recursiveResult;
         break;
     }
@@ -196,15 +196,15 @@ console.timeEnd('My Function');
 
 //забагована функція
 function summ(a: Types): number {
-  const x = Object.keys(a).map((k) => {
-    const elem = a[k];
+  const x:number[] = Object.keys(a).map((k) => {
+    const elem:ObjectWithCValue|undefined = a[k];
     if (elem === undefined) return 2021;
     else if (typeof elem.cvalue === 'string') return Number(elem.cvalue) || 2021;
     else if (typeof elem.cvalue === 'number') return elem.cvalue;
     else if (elem.cvalue !== undefined) return summ(elem.cvalue as Types);
     return 2021;
   });
-  let sum = 0;
+  let sum:number = 0;
   for (let i = 0; i < x.length; i++) {
     sum += x[i] as number;
   }
@@ -218,3 +218,5 @@ console.log(summ(pryklad2)); // Результат: 3
 console.log(summ(pryklad3)); // Результат: 6021
 console.log(summ(pryklad4)); // Результат 2021
 console.timeEnd('Bug Function');
+
+
