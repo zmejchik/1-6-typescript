@@ -159,7 +159,7 @@ function summ(a) {
         const elem = a[k];
         if (elem === undefined)
             return 2021;
-        else if (typeof elem.cvalue === 'string')
+        if (typeof elem.cvalue === 'string')
             return Number(elem.cvalue) || 2021;
         else if (typeof elem.cvalue === 'number')
             return elem.cvalue;
