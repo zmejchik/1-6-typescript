@@ -202,7 +202,7 @@ function summ(a: Types): number {
     if (typeof elem.cvalue === 'string') return Number(elem.cvalue) || 2021;
     else if (typeof elem.cvalue === 'number') return elem.cvalue;
     else if (elem.cvalue !== undefined) return summ(elem.cvalue as Types);
-    return 2021;
+    else return 2021;
   });
   let sum:number = 0;
   for (let i = 0; i < x.length; i++) {

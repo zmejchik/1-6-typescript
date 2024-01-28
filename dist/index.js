@@ -165,7 +165,8 @@ function summ(a) {
             return elem.cvalue;
         else if (elem.cvalue !== undefined)
             return summ(elem.cvalue);
-        return 2021;
+        else
+            return 2021;
     });
     let sum = 0;
     for (let i = 0; i < x.length; i++) {
