@@ -104,13 +104,19 @@ hello()
     .then((r) => console.log(r))
     .catch(() => console.log("fail"));
 //власна функція
+/**
+ * The function must return the sum of the "values" of the svalue field for all object fields
+ * @param a Object of type Types
+ * @returns Sum of "svalue" field values
+ */
 function sum(a) {
+    const DEFAULT_VALUE = 2021;
     let result = 0;
     for (const field in a) {
         const fieldValue = a[field];
         switch (typeof fieldValue) {
             case "undefined":
-                result = result + 2021;
+                result += DEFAULT_VALUE;
                 break;
             case "number":
                 result += fieldValue;
@@ -121,7 +127,7 @@ function sum(a) {
                     result += numberValue;
                 }
                 else {
-                    result = result + 2021;
+                    result += DEFAULT_VALUE;
                 }
                 break;
             default:
@@ -131,6 +137,33 @@ function sum(a) {
         }
     }
     return result;
+}
+//забагована функція
+/**
+ * The function must return the sum of the "values" of the svalue field for all object fields
+ * @param a Object of type Types
+ * @returns Sum of "svalue" field values
+ */
+function summ(a) {
+    const DEFAULT_VALUE = 2021;
+    const x = Object.keys(a).map((k) => {
+        const elem = a[k];
+        if (elem === undefined)
+            return DEFAULT_VALUE;
+        if (typeof elem.cvalue === 'string')
+            return Number(elem.cvalue) || DEFAULT_VALUE;
+        else if (typeof elem.cvalue === 'number')
+            return elem.cvalue;
+        else if (elem.cvalue !== undefined)
+            return summ(elem.cvalue);
+        else
+            return DEFAULT_VALUE;
+    });
+    let sum = 0;
+    for (let i = 0; i < x.length; i++) {
+        sum += x[i];
+    }
+    return sum;
 }
 let pryklad = {
     hello: { cvalue: "k" },
@@ -153,27 +186,6 @@ console.log(sum(pryklad2)); // Результат: 3
 console.log(sum(pryklad3)); // Результат: 6021
 console.log(sum(pryklad4)); // Результат 2021
 console.timeEnd('My Function');
-//забагована функція
-function summ(a) {
-    const x = Object.keys(a).map((k) => {
-        const elem = a[k];
-        if (elem === undefined)
-            return 2021;
-        if (typeof elem.cvalue === 'string')
-            return Number(elem.cvalue) || 2021;
-        else if (typeof elem.cvalue === 'number')
-            return elem.cvalue;
-        else if (elem.cvalue !== undefined)
-            return summ(elem.cvalue);
-        else
-            return 2021;
-    });
-    let sum = 0;
-    for (let i = 0; i < x.length; i++) {
-        sum += x[i];
-    }
-    return sum;
-}
 console.log('***************************************************');
 console.time('Bug Function');
 console.log(summ(pryklad)); // Результат: 2023

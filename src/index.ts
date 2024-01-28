@@ -140,13 +140,19 @@ interface ObjectWithCValue {
   cvalue?: number | string | undefined | Types;
 }
 //власна функція
+/**
+ * The function must return the sum of the "values" of the svalue field for all object fields
+ * @param a Object of type Types
+ * @returns Sum of "svalue" field values
+ */
 function sum(a: Types): number {
+  const DEFAULT_VALUE: number = 2021;
   let result: number = 0;
   for (const field in a) {
     const fieldValue:ObjectWithCValue|undefined = a[field];
     switch (typeof fieldValue) {
       case "undefined":
-        result = result + 2021;
+        result += DEFAULT_VALUE;
         break;
       case "number":
         result += fieldValue;
@@ -156,7 +162,7 @@ function sum(a: Types): number {
         if (!isNaN(numberValue)) {
           result += numberValue;
         } else {
-          result = result + 2021;
+          result += DEFAULT_VALUE;
         }
         break;
       default:
@@ -168,6 +174,31 @@ function sum(a: Types): number {
   return result;
 }
 
+
+
+//забагована функція
+/**
+ * The function must return the sum of the "values" of the svalue field for all object fields
+ * @param a Object of type Types
+ * @returns Sum of "svalue" field values
+ */
+function summ(a: Types): number {
+  const DEFAULT_VALUE: number = 2021;
+  const x:number[] = Object.keys(a).map((k) => {
+    const elem:ObjectWithCValue|undefined = a[k];
+    if (elem === undefined) return DEFAULT_VALUE;
+    if (typeof elem.cvalue === 'string') return Number(elem.cvalue) || DEFAULT_VALUE;
+    else if (typeof elem.cvalue === 'number') return elem.cvalue;
+    else if (elem.cvalue !== undefined) return summ(elem.cvalue as Types);
+    else return DEFAULT_VALUE;
+  });
+  let sum:number = 0;
+  for (let i = 0; i < x.length; i++) {
+    sum += x[i];
+  }
+
+  return sum;
+}
 let pryklad:Types = {
   hello: { cvalue: "k" },
   world: { cvalue: { yay: { cvalue: "2" } } },
@@ -193,24 +224,6 @@ console.log(sum(pryklad2)); // Результат: 3
 console.log(sum(pryklad3)); // Результат: 6021
 console.log(sum(pryklad4)); // Результат 2021
 console.timeEnd('My Function');
-
-//забагована функція
-function summ(a: Types): number {
-  const x:number[] = Object.keys(a).map((k) => {
-    const elem:ObjectWithCValue|undefined = a[k];
-    if (elem === undefined) return 2021;
-    if (typeof elem.cvalue === 'string') return Number(elem.cvalue) || 2021;
-    else if (typeof elem.cvalue === 'number') return elem.cvalue;
-    else if (elem.cvalue !== undefined) return summ(elem.cvalue as Types);
-    else return 2021;
-  });
-  let sum:number = 0;
-  for (let i = 0; i < x.length; i++) {
-    sum += x[i];
-  }
-
-  return sum;
-}
 console.log('***************************************************')
 console.time('Bug Function');
 console.log(summ(pryklad)); // Результат: 2023
